@@ -5,10 +5,10 @@ require('dotenv').config()
 
 
 
-exports.auth = async(req,res,next)=>{
+const auth = async(req,res,next)=>{
     try{
 
-        const token = req.cookie.token || req.body.token ||  req.header('Authorization').replace('Bearer ',"")
+        const token = req.cookies.token || req.body.token ||  req.header("Authorization")?.replace('Bearer ',"")
 
         // validation
         if(!token)
@@ -54,10 +54,10 @@ exports.auth = async(req,res,next)=>{
 
 
 //isStudent
-exports.isStudent = async(req,res,next)=>{
+const isStudent = async(req,res,next)=>{
     try{
        
-        if(req.user.accountType !== 'Student')
+        if(req.user.role !== 'Student')
         {
             return res.status(401).json({
                 success:false,
@@ -78,18 +78,21 @@ exports.isStudent = async(req,res,next)=>{
 }
 
 //isAdmin
-exports.isAdmin= async(req,res,next)=>{
+const isAdmin= async(req,res,next)=>{
     try{
+        
        
-        if(req.user.accountType !== 'Admin')
+        if(req.user.role !== 'Admin')
         {
             return res.status(401).json({
                 success:false,
                 message:"This is proteched route for Admin only"
             })
         }
+        next()
     }catch(err)
     {
+
       console.error(err)
       return res.status(500).json({
         success:false,
@@ -100,16 +103,18 @@ exports.isAdmin= async(req,res,next)=>{
 
 //isInstructor
 //isStudent
-exports.isInstructor = async(req,res,next)=>{
+const isInstructor = async(req,res,next)=>{
     try{
        
-        if(req.user.accountType !== 'Instructor')
+        if(req.user.role !== 'Instructor')
         {
             return res.status(401).json({
                 success:false,
                 message:"This is proteched route for Instructor only"
             })
         }
+        next()
+
     }catch(err)
     {
       console.error(err)
@@ -118,4 +123,12 @@ exports.isInstructor = async(req,res,next)=>{
         message:"Internal server error"
       })
     }
+}
+
+
+module.exports ={
+    auth,
+    isAdmin,
+    isStudent,
+    isInstructor
 }
