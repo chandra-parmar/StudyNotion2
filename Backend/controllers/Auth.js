@@ -110,7 +110,7 @@ exports.signUp = async(req,res)=>{
 
         // find most recent otp stored 
         const recentOtpArray = await OTP.find({email}).sort({createdAt:-1}).limit(1)
-        console.log(recentOtpArray)
+        console.log("recent otp array",recentOtpArray)
 
         if(!recentOtpArray || recentOtpArray.length === 0)
         {
@@ -233,15 +233,16 @@ exports.login = async(req,res)=>{
 
 
 //change password
-// exports.changePassword = async(req,res)=>{
-//     try{
-            //oldpassword newpassword confirmnewPassword
-//         const {ol} = req.body
-            //validation
-            //update password in db
-            //send mail password updated 
+exports.changePassword=async(req,res)=>{
+    try{
+        const {oldPassword,newPassword,confirmNewPassword} = req.body
 
-//     }catch{
+        //validation
 
-//     }
-// }
+       let updatedPassword = await User.findOneAndUpdate({email:User.email},{$set:{password:newPassword}})
+    
+    }catch(err)
+    {
+
+    }
+}
