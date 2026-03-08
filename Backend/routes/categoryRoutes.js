@@ -5,9 +5,13 @@ const {auth ,isAdmin} = require('../middlewares/auth')
 const {createCategory, showAllCategory}= require('../controllers/categoryController')
 
 
-//category routes
-router.post('/category',auth,isAdmin,createCategory)
-router.get('/category',showAllCategory)
+//create category
+router.post('/',auth,isAdmin,createCategory)
+
+//get all category
+
+router.get('/',showAllCategory)
+
 
 
 
