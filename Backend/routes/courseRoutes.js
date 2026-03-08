@@ -1,13 +1,18 @@
 const express = require('express')
 
 const router = express.Router()
-const {createCourse,showAllCourses} = require('../controllers/courseController')
+const {createCourse,showAllCourses, getCourseDetails} = require('../controllers/courseController')
 const {auth,isInstructor} = require('../middlewares/auth')
 
 
-router.post('/course',auth,isInstructor,createCourse)
+//create course route
+router.post('/',auth,isInstructor,createCourse)
 
-router.get('/course',auth,showAllCourses)
+//get all course route
+router.get('/',auth,showAllCourses)
+
+//get course details by id 
+router.get('/:courseId',getCourseDetails)
 
 
 module.exports= router
