@@ -2,7 +2,9 @@ const cloudinary = require('cloudinary').v2
 
 const uploadImageToCloudinary = async(file,folder,height,quality)=>{
     try{
-        const options ={folder}
+
+        //resource type auto to upload video also
+        const options ={folder, resource_type: "auto"}
         if(height)
         {
             options.height = height
