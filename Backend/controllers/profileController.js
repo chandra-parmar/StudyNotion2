@@ -1,0 +1,160 @@
+const Profile = require('../models/Profile')
+const User = require('../models/User')
+const Course = require('../models/Course')
+
+
+const updateProfile = async(req,res)=>{
+    try{
+          const {userId} = req.params
+          const {gender , contactNumber} = req.body
+
+          //validation
+          if(!userId)
+          {
+            return res.status(400).json({
+                success:false,
+                message:"User id required"
+            })
+          }
+
+          //validation for req body
+           if(!gender || ! contactNumber)
+          {
+            return res.status(400).json({
+                success:false,
+                message:"User data required"
+            })
+          }
+
+          //update in db 
+        // const profileDetails =  await Profile.findById(userId)
+        //console.log(profileDetails)
+
+        const userDetails = await User.findById(userId)
+        const profileId = userDetails.additionalDetails
+        const profileDetails = await Profile.findById(profileId)
+
+        console.log(profileDetails)
+
+        //update profile
+        profileDetails.gender = gender
+        profileDetails.contactNumber = contactNumber
+
+        await profileDetails.save()
+
+        //retunr res
+        return res.status(200).json({
+            success:true,
+            message:"Profile details updated successfully"
+            ,data:profileDetails
+        })
+
+    }catch(err)
+    {
+     console.eror(err)
+     return res.status(500).json({
+        success:false,
+        message:"internal sever error"
+     })
+    }
+}
+
+
+//delete account
+const deleteAccount = async(req,res)=>{
+    try{
+        
+        const { id } = req.params
+        console.log(id)
+        if(!id)
+        {
+            return res.status(400).json({
+                success:false,
+                message:"please provide id "
+            })
+        }
+
+        //delete profile (additional details)
+        const userDetails = await User.findById(id)
+
+        if(!userDetails)
+        {
+            return res.status(404).json({
+                success:false,
+                message:"User not found"
+            })
+        }
+
+        //unenroll user from all enrolled courses
+        for(let courseId of userDetails.courses){
+            await Course.findByIdAndUpdate(courseId, {$pull: {studentsEnrolled: id}})
+        }
+
+        //clear user's courses
+        await User.findByIdAndUpdate(id, {$set: {courses: []}})
+
+        //delete profile
+        await Profile.findByIdAndDelete(userDetails.additionalDetails)
+         
+        
+
+        //delete user
+        await User.findByIdAndDelete(id)
+
+        return res.status(200).json({
+            success:true,
+            message:"Account deleted successfully"
+        })
+
+        
+
+
+
+    }catch(err)
+    {
+        console.error(err)
+        return res.status(500).json({
+            success:false,
+            message:"Failed to delete account"
+        })
+    }
+}
+
+//get all user details
+const getUserDetails = async(req,res)=>{
+    try{
+        const { id } = req.params
+
+        if(!id)
+        {
+            return res.status(400).json({
+                success:false,
+                message:"Id not provided"
+            })
+        }
+
+        const userDetails = await User.findById(id).populate("additionalDetails").exec()
+
+        return res.status(200).json({
+            success:true,
+            message:"User data fetched successfully",
+            userDetails
+            
+        })
+
+    }catch(err)
+    {
+        console.error(err)
+        return res.status(500).json({
+            success:false,
+            message:"internal server error"
+        })
+    }
+}
+
+
+module.exports ={
+    updateProfile,
+    deleteAccount,
+    getUserDetails
+}
