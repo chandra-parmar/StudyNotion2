@@ -1,5 +1,6 @@
 const mongoose= require('mongoose')
 
+
 const profileSchema= new mongoose.Schema({
     gender:{
         type:String
@@ -10,4 +11,8 @@ const profileSchema= new mongoose.Schema({
 })
 
 
+
+
+
 module.exports = mongoose.model('Profile',profileSchema)
+    
