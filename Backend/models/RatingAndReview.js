@@ -9,11 +9,11 @@ const ratingAndReviewSchema = new mongoose.Schema(
      review:{
         type:String
      },
-     user:{
-        type:mongoose.Types.Schema.ObjectId,
+     user:[{
+        type:mongoose.Schema.Types.ObjectId,
         required:true,
         ref:'User'
-     }
+     }]
 })
 
 
