@@ -1,6 +1,8 @@
 const Profile = require('../models/Profile')
 const User = require('../models/User')
 const Course = require('../models/Course')
+const uploadImageToCloudinary = require('../utils/imageUploader')
+require('dotenv').config()
 
 
 const updateProfile = async(req,res)=>{
@@ -51,7 +53,7 @@ const updateProfile = async(req,res)=>{
 
     }catch(err)
     {
-     console.eror(err)
+     console.error(err)
      return res.status(500).json({
         success:false,
         message:"internal sever error"
@@ -153,8 +155,48 @@ const getUserDetails = async(req,res)=>{
 }
 
 
+//update display pictcure 
+const updateDisplayPicture = async(req,res)=>{
+    try{
+
+        //get user id from params and image file 
+        const { id } = req.params
+
+        const displayPicture = req.files.displayPicture
+
+        //upload to cloudinary
+        const image = await uploadImageToCloudinary(displayPicture,process.env.FOLDER_NAME)
+
+        console.log(image)
+
+        //update image url in db
+        const updatedProfile = await User.findByIdAndUpdate(
+                                       {_id:id},
+                                       {image:image.secure_url},
+                                       {new:true}
+        )
+
+        //return res
+        return res.status(200).json({
+            success:true,
+            message:"Image updated successfully",
+            data:updatedProfile
+        })
+
+    }catch(err)
+    {
+      console.error(err)
+      return res.status(500).json({
+        success:true,
+        message:"internal server error"
+      })
+    }
+}
+
+
 module.exports ={
     updateProfile,
     deleteAccount,
-    getUserDetails
+    getUserDetails,
+    updateDisplayPicture
 }
