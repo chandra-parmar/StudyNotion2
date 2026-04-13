@@ -18,42 +18,37 @@ import InstructorImg from '../assets/Images/Instructor.png'
 import Footer from "../components/common/Footer";
 
 
-// <html>
-//   <head>
-//     <title>Example</title>
-//     <link rel="stylesheet" href="styles.css" />
-//   </head>
-//   <body>
-//     <header>
-//       <a href="/">Header</a>
-//     </header>
-//     <nav>
-//       <a href="/one">One</a>
-//       <a href="/two">Two</a>
-//       <a href="/three">Three</a>
-//     </nav>
-//   </body>
-// </html>`;
 
 const Home = () => {
     return (
         <div>
 
             {/* section 1  */}
-            <div className="relative mx-auto flex w-11/12 flex-col items-center gap-4 text-white">
+            <div className=" mt-10 relative mx-auto flex w-11/12 flex-col items-center gap-4 text-white">
 
-                <Link to={'/signup'}>
+                
 
-                    <div className="group mx-auto rounded-full bg-richblack-800 font-bold text-richblack-200
-                       transition-all duration-200 hover:scale-95 w-fit">
+                    
+                      {/* <div className="rounded-full bg-richblack-800 font-bold text-richblack-200 transition-all duration-200 hover:scale-95">
+                        <div className="mt-12 flex flex-row items-center gap-1 rounded-full px-6 py-[5px] transition-all duration-200 group-hover:bg-richblack-900 sm:mt-16 sm:px-8 lg:mt-20 lg:px-10">
+                        <Link to={'/signup'} className="group mx-auto w-fit">
+                             Become an Instructor
+                           <FaArrowRight />
+                        </Link>
+                         
+                        </div>
+                      </div> */}
+                    {/* become instructor button */}
 
-                       <div className="mt-12 flex flex-row items-center gap-1 rounded-full px-6 py-[5px] transition-all duration-200 group-hover:bg-richblack-900 sm:mt-16 sm:px-8 lg:mt-20 lg:px-10">
-                         <p>Become an Instructor</p>
-                         <FaArrowRight />
-                       </div>
-                        
-                    </div>
-                </Link>
+                     <Link
+                          to="/signup"
+                          className="group mt-12 inline-flex items-center gap-2 rounded-full bg-richblack-800 px-6 py-[6px] font-bold text-richblack-200 transition-all duration-200 hover:scale-95 hover:bg-richblack-900 sm:mt-16 sm:px-8 lg:mt-20 lg:px-10"
+                        >
+                          <span>Become an Instructor</span>
+                          <FaArrowRight className="transition-transform duration-200 group-hover:translate-x-1" />
+                        </Link>
+                    
+                
 
                 <h2 className="mt-7 text-center text-3xl font-semibold sm:text-4xl">Empower your future with 
                 <HighlightText text={"Coding Skills"}></HighlightText></h2>
