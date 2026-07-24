@@ -8,7 +8,7 @@ require('dotenv').config()
 const auth = async(req,res,next)=>{
     try{
 
-        const token = req.cookies.token || req.body.token ||  req.header("Authorization")?.replace('Bearer ',"")
+        const token = req.cookies?.token || req.body?.token ||  req.header("Authorization")?.replace('Bearer ',"")
 
         // validation
         if(!token)
