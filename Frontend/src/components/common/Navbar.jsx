@@ -11,6 +11,7 @@ import ProfileDropDown from '../core/Auth/ProfileDropDown'
 import axios from 'axios'
 import { useState } from 'react'
 import { GoChevronDown } from "react-icons/go";
+import Login from '../../pages/Login'
 
 const Navbar = () => {
 
@@ -138,7 +139,7 @@ const Navbar = () => {
 
                             <div className=' text-white border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] flex flex-row gap-2 rounded-md transition delay-100 ease-in-out hover: -translate-y-1 hover:scale-110 '>
 
-                                  <Link to='/login'>
+                                  <Link to='/login' element={<Login></Login>}>
                                         <button >Log in </button>
                                   </Link>
 
