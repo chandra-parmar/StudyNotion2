@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux"
 import { useLocation } from 'react-router-dom'
-import { FaEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa6";
+
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { resetPassword } from "../services/operations/authAPI";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { BiArrowBack } from "react-icons/bi";
+
 
 
 const UpdatePassword = ()=>{
