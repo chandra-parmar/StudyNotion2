@@ -3,6 +3,8 @@ import OtpInput from "react-otp-input"
 import { signUp, sendOtp } from "../services/operations/authAPI"
 import { useNavigate, Link } from "react-router-dom"
 import { useState } from "react"
+import { BiArrowBack } from "react-icons/bi";
+import { RxCountdownTimer } from "react-icons/rx";
 
 const VerifyEmail = () => {
   const { signupData, loading } = useSelector((state) => state.auth)
@@ -53,7 +55,7 @@ const VerifyEmail = () => {
               <p className="text-[1.125rem] leading-[1.625rem] my-4 text-richblack-100">
                 A verification code has been sent to you. Enter the code below
               </p>
-              <form onSubmit={handleVerifyAndSignup}>
+              <form onSubmit={handleOnSubmit}>
                 <OtpInput
                   value={otp}
                   onChange={setOtp}
