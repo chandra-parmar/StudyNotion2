@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { getPasswordResetToken } from '../services/operations/authAPI'
-
+import { BiArrowBack } from "react-icons/bi";
 
 const ForgotPassword = () =>{
     
