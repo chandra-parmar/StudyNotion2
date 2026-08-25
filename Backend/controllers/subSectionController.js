@@ -13,7 +13,7 @@ const createSubSection = async(req,res)=>{
         const {sectionId,title,description} = req.body
 
         //extract file/video
-        const video = req.files.videoFile
+        const video = req.files.video
 
         //validation
         if (!sectionId || !title  || !description ||!video) {
@@ -173,11 +173,12 @@ const deleteSubSection = async(req,res)=>{
                 success: false,
                 message: "SubSection not found"
             });
-        }
-
+        }    
+        const updatedSection = await Section.findById(sectionId).populate("subSection")
         // Return response
         return res.status(200).json({
             success: true,
+            data: updatedSection,
             message: "SubSection deleted successfully"
         });
 
