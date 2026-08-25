@@ -25,7 +25,12 @@ const createSection = async(req,res)=>{
                                                     courseContent:newSection._id
                                                      }
                                                 },{new:true}
-                                                )
+                                                ).populate({
+                                                    path: "courseContent",
+                                                    populate: {
+                                                        path: "subSection"
+                                                    }
+                                                })
         
         return res.status(200).json({
             success:true,
@@ -45,38 +50,67 @@ const createSection = async(req,res)=>{
 
 
 //update section 
-const updateSection = async(req,res)=>{
-    try{
-       
-        const { sectionId } = req.params
-        const { sectionName } = req.body
+const updateSection = async (req, res) => {
+    try {
+        const { sectionId } = req.params;
+        const { sectionName } = req.body;
 
-        if(!sectionName || !sectionId)
-        {
+        if (!sectionName || !sectionId) {
             return res.status(400).json({
-                success:false,
-                message:"missing fields"
-            })
+                success: false,
+                message: "missing fields"
+            });
         }
 
-        const updatedSection = await Section.findByIdAndUpdate(sectionId,{sectionName} ,{new:true},{runValidators:true})
+        // Update section
+        const updatedSection = await Section.findByIdAndUpdate(
+            sectionId,
+            { sectionName },
+            {
+                new: true,
+                runValidators: true
+            }
+        );
+
+        if (!updatedSection) {
+            return res.status(404).json({
+                success: false,
+                message: "Section not found"
+            });
+        }
+
+        // Find the course containing this section
+        const updatedCourse = await Course.findOne({
+            courseContent: sectionId
+        }).populate({
+            path: "courseContent",
+            populate: {
+                path: "subSection"
+            }
+        });
+
+        if (!updatedCourse) {
+            return res.status(404).json({
+                success: false,
+                message: "Course not found"
+            });
+        }
 
         return res.status(200).json({
-            success:true,
-            message:"section name updated successfully",
-            data:updatedSection
-        })
+            success: true,
+            message: "section name updated successfully",
+            data: updatedCourse
+        });
 
-    }catch(err)
-    {
-          console.error(err)
-         return res.status(500).json({
-        success:false,
-        message:"cannot fetch course data"
-      })
+    } catch (err) {
+        console.error(err);
 
+        return res.status(500).json({
+            success: false,
+            message: "cannot update section"
+        });
     }
-}
+};
 
 
 const deleteSection = async(req,res)=>{
@@ -99,7 +133,8 @@ const deleteSection = async(req,res)=>{
 
         return res.status(200).json({
             success:true,
-            message:"section deleted successfully"
+            message:"section deleted successfully",
+        
         })
 
     }catch(err)
