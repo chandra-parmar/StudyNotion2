@@ -1,7 +1,9 @@
 const express = require('express')
 
 const router = express.Router()
-const {createCourse,showAllCourses, getCourseDetails, editCourse} = require('../controllers/courseController')
+const {createCourse,showAllCourses, getCourseDetails, editCourse, getInstructorCourses, getFullCourseDetails,
+    deleteCourse
+} = require('../controllers/courseController')
 const {auth,isInstructor} = require('../middlewares/auth')
 
 
@@ -14,8 +16,19 @@ router.get('/',auth,showAllCourses)
 //get course details by id 
 router.get('/:courseId',getCourseDetails)
 
+//get full course detals
+router.get('/getFullCourse',auth,getFullCourseDetails)
+
 //edit course
 router.put('/',auth, isInstructor,editCourse)
+
+// get instructor course route
+router.get('/getInstructorCourses',auth,isInstructor,getInstructorCourses)
+
+
+//delete course
+router.delete('/',auth,isInstructor,deleteCourse)
+
 
 
 module.exports= router
