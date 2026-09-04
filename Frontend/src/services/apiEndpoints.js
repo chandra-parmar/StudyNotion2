@@ -21,7 +21,9 @@ export const courseEndpoints = {
   EDIT_COURSE_API:  "http://localhost:4000/api/v1/course/",
   COURSE_CATEGORIES_API:  "http://localhost:4000/api/v1/category/",
   CREATE_COURSE_API:  "http://localhost:4000/api/v1/course/",
-
+  GET_ALL_INSTRUCTOR_COURSES_API: "http://localhost:4000/api/v1/course",
+  GET_FULL_COURSE_DETAIL_API : 'http://localhost:4000/api/v1/course',
+  DELETE_COURSE_API:"http://localhost:4000/api/v1/course/"
   
  
 }
