@@ -28,6 +28,12 @@ export const courseEndpoints = {
  
 }
 
+// catgory endpoints
+export const categoryEndpoints={
+    CATEGORY_PAGE_DATA_API : "http://localhost:4000/api/v1/category/getCategoryDetails",
+    COURSE_CATEGORIES_API : 'http://localhost:4000/api/v1/category/'
+}
+
 
 //section endpoints
 export const sectionEndpoints ={
