@@ -60,47 +60,62 @@ const showAllCategory = async(req,res)=>{
     }
 }
 
+
 //get category page details 
+// get category page details
+const categoryPageDetails = async (req, res) => {
 
-const categoryPageDetails = async(req,res)=>{
-    try{
+    try {
 
-        //get categoryID
-        const {categoryId} = req.params
+        const { categoryId } = req.body
 
-        //get courses for specified category 
+        console.log("PRINTING CATEGORY ID:", categoryId)
+
         const selectedCategory = await Category.findById(categoryId)
-                                            .populate("courses").exec()
-          
-         //validation 
-          if(!selectedCategory)
-            {
-                return res.status(404).json({
-                    success:false,
-                    message:"Data not found"
-                })
-            } 
-          //get courses for different categories
-          const differentCategories = await Category.find({_id:{$ne:categoryId}}).populate('courses').exec()
-            
-          //return res 
-          return res.status(200).json({
-            success:true,
-            data:{
-                selectedCategory,
-                differentCategories
-            }
-          })
+            .populate({
+                path: "courses",
+                populate: "ratingAndReviews",
+            })
+            .exec()
 
-    }catch(err)
-    {
-      console.log(err)
-      return res.status(500).json({
-        success:false,
-        message:"internal server error"
-      })
+        console.log("SELECTED CATEGORY:", selectedCategory)
+        console.log("CATEGORY COURSES:", selectedCategory?.courses)
+
+        // Category does not exist
+        if (!selectedCategory) {
+            return res.status(404).json({
+                success: false,
+                message: "Category not found",
+            })
+        }
+
+        // Category exists but has no courses
+        if (selectedCategory.courses.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No courses found for the selected category.",
+            })
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: {
+                selectedCategory,
+            },
+        })
+
+    } catch (error) {
+
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
+        })
     }
 }
+
+
+
 
 module.exports ={
     createCategory,
