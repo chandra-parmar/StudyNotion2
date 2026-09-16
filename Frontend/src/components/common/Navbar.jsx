@@ -8,10 +8,12 @@ import { matchPath } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { BsCart } from "react-icons/bs";
 import ProfileDropDown from '../core/Auth/ProfileDropDown'
-import axios from 'axios'
+import { apiConnector } from '../../services/apiConnector'
 import { useState } from 'react'
 import { GoChevronDown } from "react-icons/go";
 import Login from '../../pages/Login'
+import { categoryEndpoints} from '../../services/apiEndpoints'
+import { setLoading } from '../../reducer/slices/authSlice'
 
 const Navbar = () => {
 
@@ -27,25 +29,19 @@ const Navbar = () => {
     const [categoryLink , setCategoryLink] = useState([])
 
     // api call for get all category 
-    const fetchAllCategory = async()=>{
-        try{
-
-            const res = await axios.get('http://localhost:4000/api/v1/category/',{
-                withCredentials:true
-            })
-            console.log(res.data.allCategory)
-            setCategoryLink(res.data.allCategory || [])
-
-        }catch(err)
-        {
-            console.log("error while fetching category",err)
-            setCategoryLink([])
-        }
-    } 
-
-    useEffect(()=>{
-        fetchAllCategory()
-    },[])
+    useEffect(() => {
+       ;(async () => {
+         setLoading(true)
+         try {
+           const res = await apiConnector("GET", categoryEndpoints.COURSE_CATEGORIES_API)
+           console.log("category api data",res)
+           setCategoryLink(res.data.allCategory)
+         } catch (error) {
+           console.log("Could not fetch Categories.", error)
+         }
+         setLoading(false)
+       })()
+     }, [])
 
   return (
 
@@ -97,7 +93,7 @@ const Navbar = () => {
                                                         
                                                             (categoryLink || []).map((category,index) => (
                                                                 
-                                                                    <Link to={ `/catalog/${ category.name }`} key={category._id || index }
+                                                                    <Link to={ `/category/${ category.name }`} key={category._id || index }
                                                                        className='px-2 py-1 rounded hover:bg-richblack-100' >
                                                                         <p>{ category.name}</p>
                                                                     </Link>
