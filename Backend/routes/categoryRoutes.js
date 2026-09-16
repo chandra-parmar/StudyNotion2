@@ -12,8 +12,8 @@ router.post('/',auth,isAdmin,createCategory)
 
 router.get('/',showAllCategory)
 
-//get categories page details
-router.get('/:categoryId',categoryPageDetails)
+// //get categories page details
+router.post('/getCategoryDetails',categoryPageDetails)
 
 
 
