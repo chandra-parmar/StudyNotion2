@@ -19,6 +19,7 @@ import { ACCOUNT_TYPE } from './utils/constants'
 import AddCourse from './components/core/Dashboard/AddCourse'
 import MyCourses from './components/core/Dashboard/MyCourses'
 import Category from './pages/Category'
+import CourseDetails from './pages/CourseDetails'
 
 
 function App()
@@ -34,6 +35,7 @@ function App()
            <Routes>
              <Route path='/' element={<Home></Home>}></Route>
              <Route path='/category/:categoryName' element={<Category></Category>}></Route>
+              <Route path="courses/:courseId" element={<CourseDetails/>} />
              
 
              {/* login route */}
