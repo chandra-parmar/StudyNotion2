@@ -149,7 +149,7 @@ const getInstructorCourses = async(req,res)=>{
 const getFullCourseDetails= async(req,res)=>{
 
     try {
-    const { courseId } = req.body
+    const { courseId } = req.params
     const userId = req.user.id
     const courseDetails = await Course.findOne({
       _id: courseId,
