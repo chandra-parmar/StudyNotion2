@@ -7,6 +7,7 @@
     "@reduxjs/toolkit": "^2.11.2",
     "axios": "^1.15.0",
     "concurrently": "^9.2.1",
+    "copy-to-clipboard": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^19.1.1",
@@ -26,13 +27,9 @@
     "web-vitals": "^2.1.4"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thepranaygupta/react-tailwind-css-starter-pack.git"
+    "type": "git"
   },
   "author": "chandra parmar",
-  "bugs": {
-    "url": "https://github.com/thepranaygupta/react-tailwind-css-starter-pack/issues"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
