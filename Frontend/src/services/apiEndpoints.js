@@ -17,7 +17,7 @@ export const profileEndpoints ={
 // COURSE ENDPOINTS
 export const courseEndpoints = {
   GET_ALL_COURSE_API: BASE_URL + "/course/getAllCourses",
-  COURSE_DETAILS_API: BASE_URL + "/course/getCourseDetails",
+  COURSE_DETAILS_API: "http://localhost:4000/api/v1/course",
   EDIT_COURSE_API:  "http://localhost:4000/api/v1/course/",
   COURSE_CATEGORIES_API:  "http://localhost:4000/api/v1/category/",
   CREATE_COURSE_API:  "http://localhost:4000/api/v1/course/",
