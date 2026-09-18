@@ -2,7 +2,9 @@ import toast from "react-hot-toast"
 import { apiConnector } from "../apiConnector"
 import { courseEndpoints, sectionEndpoints , subSectionEndpoints } from "../apiEndpoints"
 
-const { COURSE_CATEGORIES_API, CREATE_COURSE_API ,EDIT_COURSE_API, GET_ALL_INSTRUCTOR_COURSES_API, GET_FULL_COURSE_DETAIL_API ,DELETE_COURSE_API} = courseEndpoints
+const { COURSE_CATEGORIES_API, CREATE_COURSE_API ,EDIT_COURSE_API, GET_ALL_INSTRUCTOR_COURSES_API, GET_FULL_COURSE_DETAIL_API ,DELETE_COURSE_API,
+  COURSE_DETAILS_API
+} = courseEndpoints
 const { CREATE_SECTION_API, UPDATE_SECTION_API , DELETE_SECTION_API } = sectionEndpoints
 const { CREATE_SUB_SECTION_API , UPDATE_SUB_SECTION_API, DELETE_SUB_SECTION_API }= subSectionEndpoints
 
@@ -90,6 +92,27 @@ export const editCourseDetails = async (data, token) => {
 }
 
 //get full course details
+export const fetchCourseDetails = async (courseId) => {
+  const toastId = toast.loading("Loading...")
+  //   dispatch(setLoading(true));
+  let result = null
+  try {
+    const response = await apiConnector("GET",  `${COURSE_DETAILS_API}/${courseId}`)
+    console.log("COURSE_DETAILS_API API RESPONSE............", response)
+
+    if (!response.data.success) {
+      throw new Error(response.data.message)
+    }
+    result = response.data
+  } catch (error) {
+    console.log("COURSE_DETAILS_API API ERROR............", error)
+    result = error.response.data
+    // toast.error(error.response.data.message);
+  }
+  toast.dismiss(toastId)
+  //   dispatch(setLoading(false));
+  return result
+}
 // get full details of a course
 export const getFullDetailsOfCourse = async (courseId, token) => {
   const toastId = toast.loading("Loading...")
