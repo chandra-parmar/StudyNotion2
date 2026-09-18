@@ -94,7 +94,7 @@ const Navbar = () => {
                                                             (categoryLink || []).map((category,index) => (
                                                                 
                                                                     <Link to={ `/category/${ category.name }`} key={category._id || index }
-                                                                       className='px-2 py-1 rounded hover:bg-richblack-100' >
+                                                                       className='px-2 py-1 rounded hover:bg-richblack-100 text-black' >
                                                                         <p>{ category.name}</p>
                                                                     </Link>
                                                                 
@@ -165,20 +165,22 @@ const Navbar = () => {
                       }
 
                    {/* { if user logged in and it student then show cart } */}
-                   {
-                     user && user?.accountType !== 'Instructor'  && (
+                {
+                  user && user?.accountType !== "Instructor" && (
+                    <Link
+                      to="/dashboard/cart"
+                      className="relative flex items-center justify-center text-white"
+                    >
+                      <BsCart size={26} />
 
-                        <Link to ='/dashboard/cart' className='relative'>
-                            <BsCart />
-                            {
-                                totalItems > 0 && (
-                                    <span>{ totalItems }</span>
-                                )
-                            }
-                        </Link>
-                     )
-
-                   }
+                      {totalItems > 0 && (
+                        <span className="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-red-500 px-1 text-xs font-bold text-white">
+                          {totalItems}
+                        </span>
+                      )}
+                    </Link>
+                  )
+                }
                     
 
                       {/* user logged in show drop down  */}
